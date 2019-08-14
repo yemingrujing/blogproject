@@ -41,7 +41,7 @@ class Post(models.Model):
 
     # 文章正文
     # 存储比较短的字符串可以使用 CharField，但对于文章的正文来说可能会是一大段文本，因此使用 TextField 来存储大段文本
-    body = models.TextField()
+    body = MDTextField(verbose_name='正文', default='')
 
     # 创建时间和最后一次修改时间
     create_time = models.DateTimeField()
@@ -71,8 +71,3 @@ class Post(models.Model):
     # 自定义 get_absolute_url 方法
     def get_absolute_url(self):
         return reverse('blog:detail', kwargs={'pk': self.pk})
-
-
-class Article(models.Model):
-    name = models.CharField(max_length=10)
-    content = MDTextField
