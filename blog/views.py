@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Post, Category
 import markdown2
+from comments.forms import CommentForm
 
 
 # Create your views here.
@@ -19,7 +20,12 @@ def detail(request, pk):
                                    extras=[
                                        'code-friendly', 'fenced-code-blocks', 'footnotes'
                                    ], safe_mode=True)
-    return render(request, 'blog/detail.html', context={'post': post})
+    form = CommentForm()
+    # 获取这篇 post 下的全部评论
+    comment_first = post.comment_set.all()
+    # 将文章、表单、以及文章下的评论列表作为模板变量传给 detail.html 模板，以便渲染相应数据。
+    context = {'post': post, 'form': form, 'comment_list': comment_first}
+    return render(request, 'blog/detail.html', context=context)
 
 
 def archives(request, year, month):

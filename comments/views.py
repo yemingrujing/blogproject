@@ -3,6 +3,7 @@ from blog.models import Post
 from .models import Comment
 from .forms import CommentForm
 
+
 # Create your views here.
 def post_comment(request, post_pk):
     # 先获取被评论的文章
@@ -23,7 +24,7 @@ def post_comment(request, post_pk):
 
             # 最终将评论数据保存进数据库，调用模型实例的 save 方法
             comment.save()
-             # 重定向到 post 的详情页，实际上当 redirect 函数接收一个模型的实例时，它会调用这个模型实例的 get_absolute_url 方法，
+            # 重定向到 post 的详情页，实际上当 redirect 函数接收一个模型的实例时，它会调用这个模型实例的 get_absolute_url 方法，
             return redirect(post)
         else:
             # 检查到数据不合法，重新渲染详情页，并且渲染表单的错误。
