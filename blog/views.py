@@ -5,7 +5,7 @@ from comments.forms import CommentForm
 
 
 # Create your views here.
-def index(request, year, month):
+def index(request):
     post_list = Post.objects.all().order_by('-create_time')
     return render(request, 'blog/index.html', context={
         'post_list': post_list
