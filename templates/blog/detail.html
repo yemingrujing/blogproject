@@ -85,3 +85,18 @@
         </ul>
     </div>
 {% endblock toc %}
+
+{% block tag %}
+    <div class="widget widget-tag-cloud">
+        <h3 class="widget-title">标签云</h3>
+        <ul>
+            {% for tag in post.tags.all %}
+            <li>
+                <a href="{% url 'blog:tag' tag.pk %}">{{ tag.name }}</a>
+            </li>
+            {% empty %}
+            暂无标签
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock tag %}
