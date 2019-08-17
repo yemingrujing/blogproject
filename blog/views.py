@@ -3,7 +3,7 @@ from .models import Post, Category, Tag
 import markdown2
 from comments.forms import CommentForm
 from django.views.generic import ListView, DetailView
-from django.core.paginator import Paginator
+from django.db.models import Q
 
 
 # Create your views here.
@@ -43,6 +43,19 @@ def category(request, pk):
     cate = get_object_or_404(Category, pk=pk)
     post_list = Post.objects.filter(category=cate).order_by('-create_time')
     return render(request, 'blog/index.html', context={'post_list': post_list})
+
+
+def search(request):
+    q = request.GET.get('q')
+    error_msg = ''
+
+    if not q:
+        error_msg = '请输入关键字'
+        return render(request, 'blog/index.html', {'error_msg': error_msg})
+
+    post_list = Post.objects.filter(Q(title__icontains=q) | Q(body__icontains=q))
+    return render(request, 'blog/index.html', {'error_msg': error_msg,
+                                               'post_list': post_list})
 
 
 class IndexView(ListView):
@@ -166,10 +179,12 @@ class PostDetailView(DetailView):
     def get_object(self, queryset=None):
         # 覆写 get_object 方法的目的是因为需要对 post 的 body 值进行渲染
         post = super(PostDetailView, self).get_object(queryset=None)
-        post.body = markdown2.markdown(post.body,
-                                       extras=[
-                                           'code-friendly', 'fenced-code-blocks', 'footnotes'
+        md = markdown2.Markdown(extras=[
+                                           'code-friendly', 'fenced-code-blocks', 'footnotes', 'toc'
                                        ], safe_mode=True)
+        post.body = md.convert(post.body)
+        if hasattr(md, 'toc_html'):
+            post.toc = md.toc_html
         return post
 
     def get_context_data(self, **kwargs):

@@ -17,12 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from blog.feeds import AllPostsRssFeed
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls')),
     path('mdeditor/', include('mdeditor.urls')),
-    path(r'', include('comments.urls'))
+    path(r'', include('comments.urls')),
+    path(r'all/rss/', AllPostsRssFeed(), name='rss'),
+    path(r'search/', include('haystack.urls'))
 ]
 
 if settings.DEBUG:

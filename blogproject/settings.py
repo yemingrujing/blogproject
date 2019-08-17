@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'haystack',
     'blog',
     'mdeditor',
     'comments',
@@ -121,3 +122,13 @@ STATIC_URL = '/resource/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace("//", '/')
 # 你上传的文件和图片会默认存在/uploads/editor下
 MEDIA_URL = '/media/'
+
+# 配置 Haystack
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'blog.whoosh_cn_backend.WhooshEngine',
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    },
+}
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
