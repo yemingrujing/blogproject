@@ -25,7 +25,7 @@ urlpatterns = [
     path('mdeditor/', include('mdeditor.urls')),
     path(r'', include('comments.urls')),
     path(r'all/rss/', AllPostsRssFeed(), name='rss'),
-    path(r'search/', include('haystack.urls'))
+    path(r'search/', include('haystack.urls')),
 ]
 
 if settings.DEBUG:

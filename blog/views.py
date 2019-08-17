@@ -14,6 +14,10 @@ def index(request):
     })
 
 
+def about(request):
+    return render(request, 'about.html')
+
+
 def detail(request, pk):
     # 当传入的 pk 对应的 Post 在数据库存在时，就返回对应的 post
     # 如果不存在，就给用户返回一个 404 错误，表明用户请求的文章不存在。
