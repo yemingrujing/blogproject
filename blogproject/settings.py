@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'comments',
     'rest_framework',
     'api',
+    'upload',
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,5 @@ HAYSTACK_CONNECTIONS = {
 }
 HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+UPLOAD_ROOT = os.path.join(BASE_DIR, 'upload/static/uploads').replace('\\', '/')

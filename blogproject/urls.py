@@ -27,6 +27,7 @@ urlpatterns = [
     path(r'all/rss/', AllPostsRssFeed(), name='rss'),
     path(r'search/', include('haystack.urls')),
     path(r'', include('api.urls')),
+    path(r'', include('upload.urls'))
 ]
 
 if settings.DEBUG:

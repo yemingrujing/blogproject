@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/app/upload" method="post" enctype="multipart/form-data">
+    <br/> {% csrf_token %} <br/>
+    <input type="file" name="file_name">
+    <input type="submit">
+</form>
+<!-- 列表 -->
+<table border="1" width="500">
+    <tr>
+        <th>编号</th>
+        <th>文件名</th>
+        <th>操作</th>
+    </tr>
+    <!-- 遍历域中保存的List -->
+    {% for file_name in file_list %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ file_name }} </td>
+            <td>
+                <a href="/app/filedown?file_path={{ root_path }}/{{ file_name }}">下载</a>
+                <a href="/app/file/delete?file_path={{ root_path }}/{{ file_name }}">删除</a>
+            </td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="3" style="text-align: center">
+                <p style="color: red; font-size: 14px">EMPTY!</p>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+</body>
+</html>
