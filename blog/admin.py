@@ -21,7 +21,6 @@ class PostAdmin(admin.ModelAdmin):
     list_display_links = ('title', 'author')
 
 
-# admin.site = myAdminSite(name='management')
 admin.site.site_header = '博客后台管理'
 admin.site.site_title = '登录'
 admin.site.register(Category)
