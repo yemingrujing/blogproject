@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'blog',
     'mdeditor',
     'comments',
+    'rest_framework',
+    'api',
 ]
 
 MIDDLEWARE = [
