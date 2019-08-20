@@ -26,17 +26,18 @@ class Uploads(View):
         my_file = request.FILES.get('file_name', )
         file_name = get_unique_str() + '_' + my_file.name.split('.')[-2]
         file_suffix = my_file.name.split('.')[-1]
+        # 文件路径
+        file_path = os.path.join(settings.UPLOAD_ROOT, file_name + '.' + file_suffix)
+        f = open(file_path, 'wb')
+        for i in my_file.chunks():
+            f.write(i)
+        f.close()
+        # 转换成PDF
         if file_suffix == 'doc' or file_suffix == 'docx':
             # 文件路径
-            file_path = os.path.join(settings.UPLOAD_ROOT, file_name + '.' + 'pdf')
-            word_to_doc(my_file, file_path)
-        else:
-            # 文件路径
-            file_path = os.path.join(settings.UPLOAD_ROOT, file_name + '.' + file_suffix)
-            f = open(file_path, 'wb')
-            for i in my_file.chunks():
-                f.write(i)
-            f.close()
+            pdf_file_path = os.path.join(settings.UPLOAD_ROOT, file_name + '.' + 'pdf')
+            word_to_doc(file_path, pdf_file_path)
+
         return redirect('/app/filedown')
 
 
@@ -124,13 +125,13 @@ def pdf_to_word(file, word_file_path):
     save_text_to_word(content, word_file_path)
 
 
-def word_to_doc(file, word_file_path):
+def word_to_doc(file_path, pdf_file_path):
     try:
         pythoncom.CoInitialize()
         word = client.DispatchEx("Word.Application")
         pythoncom.CoInitialize()
-        word_doc = word.documents.Open(file, ReadOnly=1)
-        word_doc.SaveAs(word_file_path, FIleFormat=17)
+        word_doc = word.Documents.Open(file_path, ReadOnly=1)
+        word_doc.SaveAs(pdf_file_path, FileFormat=17)
         word_doc.Close()
     except Exception as e:
         print(e)
