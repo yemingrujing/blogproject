@@ -13,6 +13,8 @@ from pdfminer.pdfinterp import process_pdf
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
 from docx import Document
+import pythoncom
+from win32com import client
 
 
 # Create your views here.
@@ -24,10 +26,10 @@ class Uploads(View):
         my_file = request.FILES.get('file_name', )
         file_name = get_unique_str() + '_' + my_file.name.split('.')[-2]
         file_suffix = my_file.name.split('.')[-1]
-        if file_suffix == 'pdf':
+        if file_suffix == 'doc' or file_suffix == 'docx':
             # 文件路径
-            file_path = os.path.join(settings.UPLOAD_ROOT, file_name + '.' + 'docx')
-            pdf_to_word(my_file, file_path)
+            file_path = os.path.join(settings.UPLOAD_ROOT, file_name + '.' + 'pdf')
+            word_to_doc(my_file, file_path)
         else:
             # 文件路径
             file_path = os.path.join(settings.UPLOAD_ROOT, file_name + '.' + file_suffix)
@@ -120,3 +122,18 @@ def remove_control_characters(content):
 def pdf_to_word(file, word_file_path):
     content = read_from_pdf(file)
     save_text_to_word(content, word_file_path)
+
+
+def word_to_doc(file, word_file_path):
+    try:
+        pythoncom.CoInitialize()
+        word = client.DispatchEx("Word.Application")
+        pythoncom.CoInitialize()
+        word_doc = word.documents.Open(file, ReadOnly=1)
+        word_doc.SaveAs(word_file_path, FIleFormat=17)
+        word_doc.Close()
+    except Exception as e:
+        print(e)
+    finally:
+        # 释放资源
+        pythoncom.CoUninitialize()
