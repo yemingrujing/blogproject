@@ -13,6 +13,7 @@ from pdfminer.pdfinterp import process_pdf
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
 from docx import Document
+# linux环境不支持win32com
 # import pythoncom
 # from win32com import client
 
