@@ -40,6 +40,5 @@ class getMusicInfo(APIView):
             'X-Requested-With': 'XMLHttpRequest',
         }
         response = requests.post(url, data, headers=headers)
-        print(response.json())
         return JsonResponse(response.json(), json_dumps_params={'ensure_ascii': False}, safe=False)
 
