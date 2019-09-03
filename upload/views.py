@@ -13,8 +13,8 @@ from pdfminer.pdfinterp import process_pdf
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
 from docx import Document
-import pythoncom
-from win32com import client
+# import pythoncom
+# from win32com import client
 
 
 # Create your views here.
@@ -36,7 +36,7 @@ class Uploads(View):
         if file_suffix == 'doc' or file_suffix == 'docx':
             # 文件路径
             pdf_file_path = os.path.join(settings.UPLOAD_ROOT, file_name + '.' + 'pdf')
-            word_to_doc(file_path, pdf_file_path)
+            # word_to_doc(file_path, pdf_file_path)
 
         return redirect('/app/filedown')
 
@@ -125,16 +125,16 @@ def pdf_to_word(file, word_file_path):
     save_text_to_word(content, word_file_path)
 
 
-def word_to_doc(file_path, pdf_file_path):
-    try:
-        pythoncom.CoInitialize()
-        word = client.DispatchEx("Word.Application")
-        pythoncom.CoInitialize()
-        word_doc = word.Documents.Open(file_path, ReadOnly=1)
-        word_doc.SaveAs(pdf_file_path, FileFormat=17)
-        word_doc.Close()
-    except Exception as e:
-        print(e)
-    finally:
-        # 释放资源
-        pythoncom.CoUninitialize()
+# def word_to_doc(file_path, pdf_file_path):
+#     try:
+#         pythoncom.CoInitialize()
+#         word = client.DispatchEx("Word.Application")
+#         pythoncom.CoInitialize()
+#         word_doc = word.Documents.Open(file_path, ReadOnly=1)
+#         word_doc.SaveAs(pdf_file_path, FileFormat=17)
+#         word_doc.Close()
+#     except Exception as e:
+#         print(e)
+#     finally:
+#         # 释放资源
+#         pythoncom.CoUninitialize()
