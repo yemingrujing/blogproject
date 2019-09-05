@@ -12,4 +12,5 @@ app_name = 'api'
 urlpatterns = [
     url(r'api/', include(route.urls)),
     url(r'api/get/music/info', views.getMusicInfo.as_view()),
+    url(r'api/get/blog/detail', views.getBlogDetail.as_view()),
 ]

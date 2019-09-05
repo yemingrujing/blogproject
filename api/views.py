@@ -42,3 +42,23 @@ class getMusicInfo(APIView):
         response = requests.post(url, data, headers=headers)
         return JsonResponse(response.json(), json_dumps_params={'ensure_ascii': False}, safe=False)
 
+
+class getBlogDetail(APIView):
+    def get(self, request, *args, **kwargs):
+        creator = request.GET.get("creator")
+        client_id = request.GET.get("client_id")
+        client_secret = request.GET.get("client_secret")
+        url = request.GET.get("url")
+        data = {
+            'creator': creator,
+            'client_id': client_id,
+            'client_secret': client_secret,
+        }
+        headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Origin': 'http://blog.yx319.cn',
+            'Referer': 'http://blog.yx319.cn/',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
+        }
+        response = requests.get(url, params=data, headers=headers)
+        return JsonResponse(response.json(), json_dumps_params={'ensure_ascii': False}, safe=False)
